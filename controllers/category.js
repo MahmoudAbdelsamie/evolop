@@ -1,3 +1,6 @@
+const Budget = require('../models/budget');
+
+
 // get Categories
 exports.getCategories = (req, res, next) => {
     req.user
@@ -36,6 +39,31 @@ exports.getCategoryById = (req, res, next) => {
             return res.status(200).send({
                 status: 'Success',
                 message: 'Category Retrieved',
+                data: category
+            })
+        })
+        .catch(err => {
+            return res.status(500).send({
+                error: err.message
+            })
+        })
+};
+
+// // Get Category Budget
+exports.getCategoryBudgetById = (req, res, next) => {
+    const { id } = req.params;
+    req.user
+        .getCategories({ where: { id: id }, include: [Budget]})
+        .then(categories => {
+            const category = categories[0];
+            if(!category) {
+                return res.status(404).send({
+                    message: 'Category Budget Not Found'
+                })
+            }
+            return res.status(200).send({
+                status: 'Success',
+                message: 'Category Budget Retrieved Successfully...',
                 data: category
             })
         })
