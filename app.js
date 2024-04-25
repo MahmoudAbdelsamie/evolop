@@ -4,6 +4,7 @@ require('dotenv').config();
 
 
 const categoryRoutes = require('./routes/category');
+const budgetRoutes = require('./routes/budget')
 
 const sequelize = require('./utils/database')
 const User = require('./models/user');
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 
 app.use(categoryRoutes);
+app.use(budgetRoutes);
 
 // Setting DB Relations 
 User.hasMany(Budget);
